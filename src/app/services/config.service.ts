@@ -20,10 +20,10 @@ export class ConfigService extends StateManagement<GlobalConfig> {
 
   constructor(private readonly _helperService: HelperService) {
     super(initialState);
-    const localTheme: string = localStorage.getItem(LocalStorage.Theme) ?? '';
-    if (this._helperService.isValid(localTheme)) {
-      const themeMode: GlobalTheme = JSON.parse(localTheme);
-      this.setThemeMode(themeMode.mode);
+    const localConfig: string = localStorage.getItem(LocalStorage.Config) ?? '';
+    if (this._helperService.isValid(localConfig)) {
+      const globalConfig: GlobalConfig = JSON.parse(localConfig);
+      this.setThemeMode(globalConfig.theme.mode);
     }
   }
 
@@ -37,7 +37,7 @@ export class ConfigService extends StateManagement<GlobalConfig> {
       }
     };
     this.setState({ ...newTheme });
-    localStorage.setItem(LocalStorage.Theme, JSON.stringify(newTheme));
+    localStorage.setItem(LocalStorage.Config, JSON.stringify(newTheme));
   }
 
 }
