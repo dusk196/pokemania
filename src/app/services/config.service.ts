@@ -1,30 +1,43 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { StateManagement } from 'src/app/classes/state';
-import { GlobalConfig } from 'src/app/interfaces/config.interface';
-import { HelperService } from './helper.service';
+import { GlobalConfig, GlobalTheme } from 'src/app/interfaces/config.interface';
+import { HelperService } from 'src/app/services/helper.service';
+import { ThemeMode } from 'src/app/constants/config.constant';
+import { LocalStorage } from 'src/app/constants/localstorage.constant';
 
 const initialState: GlobalConfig = {
-  theme: ''
+  theme: {
+    mode: ThemeMode.Light,
+    scale: 2
+  }
 };
 
 @Injectable({
   providedIn: 'root'
 })
-export class ConfigService extends StateManagement<GlobalConfig>{
+export class ConfigService extends StateManagement<GlobalConfig> {
 
-  constructor(
-    private readonly _helperService: HelperService
-  ) {
+  constructor(private readonly _helperService: HelperService) {
     super(initialState);
-    const localTheme = localStorage.getItem('theme');
-    console.log(this._helperService.isValid(localTheme));
+    const localTheme: string = localStorage.getItem(LocalStorage.Theme) ?? '';
+    if (this._helperService.isValid(localTheme)) {
+      const themeMode: GlobalTheme = JSON.parse(localTheme);
+      this.setThemeMode(themeMode.mode);
+    }
   }
 
-  theme$: Observable<string> = this.select(state => state.theme);
+  theme$: Observable<GlobalTheme> = this.select(state => state.theme);
 
-  setTheme(newTheme: string) {
-    this.setState({ theme: newTheme })
+  setThemeMode(newThemeMode: string): void {
+    const newTheme = {
+      theme: {
+        ...this.state.theme,
+        mode: newThemeMode
+      }
+    };
+    this.setState({ ...newTheme });
+    localStorage.setItem(LocalStorage.Theme, JSON.stringify(newTheme));
   }
 
 }
