@@ -1,7 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
-export class StateService<T> {
+export class StateManagement<T> {
 
   private state$: BehaviorSubject<T>;
 
@@ -23,7 +23,7 @@ export class StateService<T> {
   protected setState(newState: Partial<T>) {
     this.state$.next({
       ...this.state,
-      ...newState,
+      ...newState
     });
   }
 
