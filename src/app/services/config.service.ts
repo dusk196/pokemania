@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { StateManagement } from 'src/app/classes/state';
 import { GlobalConfig } from 'src/app/interfaces/config.interface';
+import { HelperService } from './helper.service';
 
 const initialState: GlobalConfig = {
   theme: ''
@@ -12,8 +13,12 @@ const initialState: GlobalConfig = {
 })
 export class ConfigService extends StateManagement<GlobalConfig>{
 
-  constructor() {
+  constructor(
+    private readonly _helperService: HelperService
+  ) {
     super(initialState);
+    const localTheme = localStorage.getItem('theme');
+    console.log(this._helperService.isValid(localTheme));
   }
 
   theme$: Observable<string> = this.select(state => state.theme);
