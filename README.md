@@ -1,6 +1,8 @@
-# PokemonExpeditionBr
+# Pokemon Expedition: Battle Royale [in-progress]
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.6.
+
+A tribute to Ash Ketchum - the very best... Like no one ever was!
 
 ## Development server
 
