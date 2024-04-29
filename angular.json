@@ -1,9 +1,15 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
+  "cli": {
+    "packageManager": "bun",
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
+  },
   "newProjectRoot": "projects",
   "projects": {
-    "pokemon-expedition-br": {
+    "pokemania": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -15,11 +21,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/pokemon-expedition-br",
+            "outputPath": "dist/pokemania",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -51,12 +57,9 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -65,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "pokemon-expedition-br:build:production"
+              "buildTarget": "pokemania:build:production"
             },
             "development": {
-              "browserTarget": "pokemon-expedition-br:build:development"
+              "buildTarget": "pokemania:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pokemon-expedition-br:build"
+            "buildTarget": "pokemania:build"
           }
         },
         "test": {
@@ -96,6 +99,15 @@
               "src/styles.scss"
             ],
             "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         }
       }
